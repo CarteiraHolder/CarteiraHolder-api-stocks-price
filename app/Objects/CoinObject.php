@@ -1,48 +1,23 @@
-<?php
+<?php 
 
 namespace App\Objects;
 
 class CoinObject
 {
-    private string $code;
-    private string $name;
-    private float $price;
+    private float $value;
 
     public function __construct()
     {
-        $this->setCode('');
-        $this->setName('');
-        $this->setPrice(0);   
+        $this->setValue(0);
     }
 
-    public function setCode(string $code) : void
+    public function setValue(float $value) : void
     {
-        $this->code = $code;
+        $this->value =$value; 
     }
 
-    public function setName(string $name) : void
+    public function getValue() : float
     {
-        $this->name = $name;
+        return $this->value;
     }
-
-    public function setPrice(float $price) : void
-    {
-        $this->price = $price;
-    }
-
-    public function getCode() : string
-    {
-        return $this->code;
-    }
-
-    public function getName() : string
-    {
-        return $this->name;
-    }
-
-    public function getPrice() : float 
-    {
-        return $this->price;
-    }
-    
 }
