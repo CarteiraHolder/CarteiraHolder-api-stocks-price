@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Interfaces;
+namespace App\Interfaces\Coin;
 
-use App\Objects\CurrencyQuoteObject;
+use App\Objects\Coin\CurrencyQuoteObject;
 
 interface ApiCoinsInterface 
 {

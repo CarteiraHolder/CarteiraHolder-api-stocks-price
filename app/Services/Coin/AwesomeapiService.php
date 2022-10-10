@@ -1,11 +1,11 @@
 <?php 
 
-namespace App\Services;
+namespace App\Services\Coin;
 
-use App\Interfaces\ApiCoinsInterface;
-use App\Domains\AwesomeapiDomain;
+use App\Interfaces\Coin\ApiCoinsInterface;
+use App\Domains\Coin\AwesomeapiDomain;
 
-use App\Objects\CurrencyQuoteObject;
+use App\Objects\Coin\CurrencyQuoteObject;
 
 use GuzzleHttp\Client;
 
@@ -22,7 +22,11 @@ class AwesomeapiService implements ApiCoinsInterface, AwesomeapiDomain
         $exchange = $CurrencyQuote->GetCode() . '-' . $CurrencyQuote->GetCodeIn();
         $node = $CurrencyQuote->GetCode() . $CurrencyQuote->GetCodeIn();
 
-        $request = $this->httpClient->get(self::URL . $exchange);
+        try {
+            $request = $this->httpClient->get(self::URL . $exchange);
+        } catch (\Throwable $th) {
+            return $CurrencyQuote;
+        }
 
         $requestJson = json_decode($request->getBody()->getContents());
 

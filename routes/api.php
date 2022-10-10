@@ -3,11 +3,11 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-use App\Services\CurrencyQuoteService;
-use App\Services\AwesomeapiService;
-use App\Services\HgbrasilService;
-use App\Services\BcbService;
-use App\Objects\CurrencyQuoteObject;
+use App\Services\Coin\CurrencyQuoteService;
+use App\Services\Coin\AwesomeapiService;
+use App\Services\Coin\HgbrasilService;
+use App\Services\Coin\BcbService;
+use App\Objects\Coin\CurrencyQuoteObject;
 
 use GuzzleHttp\Client;
 
@@ -26,17 +26,19 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/teste',
-    function (Request $request)
+Route::get('/coin/{code}',
+    function (Request $request, $code)
     {
+
         $API = new AwesomeapiService(new Client);
-        // $API = new BcbService(new Client);
         // $API = new HgbrasilService(new Client);
+        // $API = new BcbService(new Client);
+
         $CurrencyQuote = new CurrencyQuoteObject();
-        $CurrencyQuote->setCode("USD");
+        $CurrencyQuote->setCode($code);
+ 
         $CoinPrice = new CurrencyQuoteService($API, $CurrencyQuote);
-        
-        
+
         echo '<pre>';
         print_r($CoinPrice->getPrice());
         echo '</pre>';

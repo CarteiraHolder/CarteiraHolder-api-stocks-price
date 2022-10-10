@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Objects;
+namespace App\Objects\Coin;
 
-use App\Objects\CoinObject;
+use App\Objects\Coin\CoinObject;
 
 class CurrencyQuoteObject extends CoinObject
 {

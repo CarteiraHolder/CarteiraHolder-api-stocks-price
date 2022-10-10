@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Coin;
 
-use App\Interfaces\ApiCoinsInterface;
-use App\Objects\CurrencyQuoteObject;
+use App\Interfaces\Coin\ApiCoinsInterface;
+use App\Objects\Coin\CurrencyQuoteObject;
 
 class CurrencyQuoteService
 {

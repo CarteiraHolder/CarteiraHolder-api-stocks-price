@@ -1,6 +1,6 @@
 <?php 
 
-namespace App\Objects;
+namespace App\Objects\Coin;
 
 class CoinObject
 {
@@ -13,7 +13,7 @@ class CoinObject
 
     public function setValue(float $value) : void
     {
-        $this->value =$value; 
+        $this->value = $value; 
     }
 
     public function getValue() : float

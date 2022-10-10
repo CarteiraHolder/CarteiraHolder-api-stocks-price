@@ -1,11 +1,11 @@
 <?php 
 
-namespace App\Services;
+namespace App\Services\Coin;
 
-use App\Interfaces\ApiCoinsInterface;
-use App\Domains\BcbDomain;
+use App\Interfaces\Coin\ApiCoinsInterface;
+use App\Domains\Coin\BcbDomain;
 
-use App\Objects\CurrencyQuoteObject;
+use App\Objects\Coin\CurrencyQuoteObject;
 
 use GuzzleHttp\Client;
 
@@ -19,12 +19,18 @@ class BcbService implements ApiCoinsInterface, BcbDomain
     
     public function callApi(CurrencyQuoteObject $CurrencyQuote) : CurrencyQuoteObject
     {
-        
-
         $url = self::URL_START . "'" . $this->getYesterday() . "'" . self::URL_END;
         $request = $this->httpClient->get($url);
 
-        $requestJson = json_decode($request->getBody()->getContents());
+        try {
+            $requestJson = json_decode($request->getBody()->getContents());
+        } catch (\Throwable $th) {
+            return $CurrencyQuote;
+        }
+
+        if(!$this->NodeGreaterZero($requestJson->value)){
+            return $CurrencyQuote;
+        }
 
         $CurrencyQuote->setValue($requestJson->value[0]->cotacaoCompra);
         $CurrencyQuote->setDate($requestJson->value[0]->dataHoraCotacao);
@@ -32,8 +38,13 @@ class BcbService implements ApiCoinsInterface, BcbDomain
         return $CurrencyQuote;
     }
 
-    public function getYesterday() : string 
+    private function getYesterday() : string 
     {
         return date('m-d-Y',mktime(0,0,0,date("m"),date("d")- 1 ,date("Y")));
+    }
+
+    private function NodeGreaterZero(array $array) : bool
+    {
+        return count($array) > 0;
     }
 }
