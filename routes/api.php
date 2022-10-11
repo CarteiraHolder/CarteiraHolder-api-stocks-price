@@ -20,6 +20,7 @@ use App\Services\Cripto\CurrencyQuoteCriptService;
 
 use App\Objects\Stock\StockObject;
 use App\Services\Stock\YahoofinanceStockService;
+use App\Services\Stock\RapidaService;
 use App\Services\Stock\PolygonService;
 use App\Services\Stock\CurrencyQuoteStockService;
 
@@ -90,8 +91,9 @@ Route::get('/cripto/{code}',
 Route::get('/stocks/{code}',
     function (Request $request, $code)
     {
-        // $API = new YahoofinanceStockService(new Client);
-        $API = new PolygonService(new Client);
+        $API = new YahoofinanceStockService(new Client);
+        // $API = new PolygonService(new Client);
+        // $API = new RapidaService(new Client);
         
         $StockObject = new StockObject(new CurrencyQuoteCoinObject());
 
