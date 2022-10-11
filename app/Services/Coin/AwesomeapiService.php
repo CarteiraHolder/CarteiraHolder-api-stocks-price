@@ -5,7 +5,7 @@ namespace App\Services\Coin;
 use App\Interfaces\Coin\ApiCoinsInterface;
 use App\Domains\Coin\AwesomeapiDomain;
 
-use App\Objects\Coin\CurrencyQuoteObject;
+use App\Objects\Coin\CurrencyQuoteCoinObject;
 
 use GuzzleHttp\Client;
 
@@ -17,7 +17,7 @@ class AwesomeapiService implements ApiCoinsInterface, AwesomeapiDomain
         $this->httpClient = $httpClient;
     }
     
-    public function callApi(CurrencyQuoteObject $CurrencyQuote) : CurrencyQuoteObject
+    public function callApi(CurrencyQuoteCoinObject $CurrencyQuote) : CurrencyQuoteCoinObject
     {
         $exchange = $CurrencyQuote->GetCode() . '-' . $CurrencyQuote->GetCodeIn();
         $node = $CurrencyQuote->GetCode() . $CurrencyQuote->GetCodeIn();

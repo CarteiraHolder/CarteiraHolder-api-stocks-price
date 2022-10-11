@@ -3,14 +3,14 @@
 namespace App\Services\Coin;
 
 use App\Interfaces\Coin\ApiCoinsInterface;
-use App\Objects\Coin\CurrencyQuoteObject;
+use App\Objects\Coin\CurrencyQuoteCoinObject;
 
 class CurrencyQuoteService
 {
     private ApiCoinsInterface $ApiCoins;
-    private CurrencyQuoteObject $CurrencyQuote;
+    private CurrencyQuoteCoinObject $CurrencyQuote;
 
-    public function __construct(ApiCoinsInterface $ApiCoins, CurrencyQuoteObject $CurrencyQuote)
+    public function __construct(ApiCoinsInterface $ApiCoins, CurrencyQuoteCoinObject $CurrencyQuote)
     {
         $this->setApiCoins($ApiCoins);
         $this->CurrencyQuote = $CurrencyQuote;
@@ -26,7 +26,7 @@ class CurrencyQuoteService
         return $this->ApiCoins;
     }
 
-    public function getPrice() : CurrencyQuoteObject 
+    public function getPrice() : CurrencyQuoteCoinObject 
     {
         $this->getApiCoins()->callApi($this->CurrencyQuote);
         return $this->CurrencyQuote;

@@ -2,9 +2,9 @@
 
 namespace App\Interfaces\Coin;
 
-use App\Objects\Coin\CurrencyQuoteObject;
+use App\Objects\Coin\CurrencyQuoteCoinObject;
 
 interface ApiCoinsInterface 
 {
-    public function callApi(CurrencyQuoteObject $Coin) : CurrencyQuoteObject;
+    public function callApi(CurrencyQuoteCoinObject $Coin) : CurrencyQuoteCoinObject;
 }

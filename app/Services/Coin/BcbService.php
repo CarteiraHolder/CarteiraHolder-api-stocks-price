@@ -5,7 +5,7 @@ namespace App\Services\Coin;
 use App\Interfaces\Coin\ApiCoinsInterface;
 use App\Domains\Coin\BcbDomain;
 
-use App\Objects\Coin\CurrencyQuoteObject;
+use App\Objects\Coin\CurrencyQuoteCoinObject;
 
 use GuzzleHttp\Client;
 
@@ -17,7 +17,7 @@ class BcbService implements ApiCoinsInterface, BcbDomain
         $this->httpClient = $httpClient;
     }
     
-    public function callApi(CurrencyQuoteObject $CurrencyQuote) : CurrencyQuoteObject
+    public function callApi(CurrencyQuoteCoinObject $CurrencyQuote) : CurrencyQuoteCoinObject
     {
         $url = self::URL_START . "'" . $this->getYesterday() . "'" . self::URL_END;
         $request = $this->httpClient->get($url);
