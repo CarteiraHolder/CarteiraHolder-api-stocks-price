@@ -24,6 +24,12 @@ use App\Services\Stock\RapidaService;
 use App\Services\Stock\PolygonService;
 use App\Services\Stock\CurrencyQuoteStockService;
 
+use App\Objects\BrazilionStock\BrazilionStockObject;
+use App\Services\BrazilionStock\YahoofinanceBrazilionStockService;
+use App\Services\BrazilionStock\LabdoService;
+use App\Services\BrazilionStock\HgbrasilService as HgbrasilBrazilionStockService;
+use App\Services\BrazilionStock\CurrencyQuoteBrazilionStockService;
+
 use GuzzleHttp\Client;
 
 /*
@@ -103,6 +109,31 @@ Route::get('/stocks/{code}',
 
         $API = new AwesomeapiService(new Client);
         $CoinPrice = new CurrencyQuoteService($API, $StockObject->getCoin());
+        
+        $StockPrice->getPrice()->setCoin($CoinPrice->getPrice());
+
+        echo '<pre>';
+        print_r($StockPrice->getPrice());
+        echo '</pre>';
+       
+    }
+);
+
+Route::get('/stocks/brazilion/{code}',
+    function (Request $request, $code)
+    {
+        // $API = new YahoofinanceBrazilionStockService(new Client);
+        // $API = new LabdoService(new Client);
+        $API = new HgbrasilBrazilionStockService(new Client);
+        
+        $BrazilionStockObject = new BrazilionStockObject(new CurrencyQuoteCoinObject());
+
+        $BrazilionStockObject->setCode($code);
+
+        $StockPrice = new CurrencyQuoteBrazilionStockService($API, $BrazilionStockObject);
+
+        $API = new AwesomeapiService(new Client);
+        $CoinPrice = new CurrencyQuoteService($API, $BrazilionStockObject->getCoin());
         
         $StockPrice->getPrice()->setCoin($CoinPrice->getPrice());
 

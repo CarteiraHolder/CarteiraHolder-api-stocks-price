@@ -8,6 +8,7 @@ class AssetPatternObject
 {
     private string $code;
     private float $value;
+    private string $date;
     private CurrencyQuoteCoinObject $coin;
 
     public function __construct(CurrencyQuoteCoinObject $coin)
@@ -15,6 +16,7 @@ class AssetPatternObject
         $this->setCoin($coin);
         $this->setCode('BRL');
         $this->setValue(0);
+        $this->setDate(date('Y-m-d h:i:s'));
     }
     
     public function setCode(string $code) : void
@@ -26,6 +28,12 @@ class AssetPatternObject
     {
         $this->value = $value;
     }
+
+    public function setDate(string $date) : void
+    {
+        $this->date = $date;
+    }
+    
 
     public function setCoin(CurrencyQuoteCoinObject $coin) : void
     {
@@ -40,6 +48,11 @@ class AssetPatternObject
     public function getValue() : float
     {
         return $this->value;
+    }
+
+    public function getDate() : string
+    {
+        return $this->date;
     }
 
     public function getCoin() : CurrencyQuoteCoinObject
