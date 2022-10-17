@@ -6,13 +6,16 @@ use App\Interfaces\BrazilionStock\ApiBrazilionStockInterface;
 use App\Objects\BrazilionStock\BrazilionStockObject;
 use App\Domains\BrazilionStock\HgbrasilDomain;
 
+use App\Services\Sector\SectorService;
+
 use GuzzleHttp\Client;
 
-class HgbrasilService implements ApiBrazilionStockInterface, HgbrasilDomain
+class HgbrasilService extends SectorService implements ApiBrazilionStockInterface, HgbrasilDomain
 {
     private Client $httpClient;
 
     public function __construct(Client $httpClient) {
+        parent::__construct($httpClient);
         $this->httpClient = $httpClient;
     }
 
@@ -34,9 +37,16 @@ class HgbrasilService implements ApiBrazilionStockInterface, HgbrasilDomain
             return $Stock;
         }
 
-        $Stock->setValue($requestJson->results->{$Stock->getCode()}->price);
-        $Stock->getCoin()->setCode($requestJson->results->{$Stock->getCode()}->currency);
-        $Stock->setDate($requestJson->results->{$Stock->getCode()}->updated_at);
+        $StockJson = $requestJson->results->{$Stock->getCode()};
+
+        $Stock->setValue($StockJson->price);
+        $Stock->getCoin()->setCode($StockJson->currency);
+        $Stock->setDate($StockJson->updated_at);
+
+        $Stock->setName($StockJson->company_name);
+        $Stock->setCnpj($StockJson->document);
+
+        $this->getSector($Stock->getCode(), $Stock);
 
         return $Stock;
     }

@@ -6,13 +6,16 @@ use App\Interfaces\BrazilionStock\ApiBrazilionStockInterface;
 use App\Objects\BrazilionStock\BrazilionStockObject;
 use App\Domains\BrazilionStock\YahoofinanceDomain;
 
+use App\Services\Sector\SectorService;
+
 use GuzzleHttp\Client;
 
-class YahoofinanceBrazilionStockService implements ApiBrazilionStockInterface, YahoofinanceDomain
+class YahoofinanceBrazilionStockService extends SectorService implements ApiBrazilionStockInterface, YahoofinanceDomain
 {
     private Client $httpClient;
 
     public function __construct(Client $httpClient) {
+        parent::__construct($httpClient);
         $this->httpClient = $httpClient;
     }
 
@@ -28,8 +31,14 @@ class YahoofinanceBrazilionStockService implements ApiBrazilionStockInterface, Y
             return $Stock;
         }
 
-        $Stock->setValue($requestJson->chart->result[0]->meta->regularMarketPrice);
-        $Stock->getCoin()->setCode($requestJson->chart->result[0]->meta->currency);
+        $StockJson = $requestJson->quoteSummary->result[0]->price;
+
+        $Stock->setValue($StockJson->regularMarketPreviousClose->raw);
+        $Stock->getCoin()->setCode($StockJson->currency);
+
+        $Stock->setName($StockJson->longName);
+
+        $this->getSector($Stock->getCode(), $Stock);
 
         return $Stock;
     }

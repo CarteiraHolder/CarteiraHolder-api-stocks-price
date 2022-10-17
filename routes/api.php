@@ -122,9 +122,9 @@ Route::get('/stocks/{code}',
 Route::get('/stocks/brazilion/{code}',
     function (Request $request, $code)
     {
-        // $API = new YahoofinanceBrazilionStockService(new Client);
+        $API = new YahoofinanceBrazilionStockService(new Client);
         // $API = new LabdoService(new Client);
-        $API = new HgbrasilBrazilionStockService(new Client);
+        // $API = new HgbrasilBrazilionStockService(new Client);
         
         $BrazilionStockObject = new BrazilionStockObject(new CurrencyQuoteCoinObject());
 
