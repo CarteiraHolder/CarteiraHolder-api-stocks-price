@@ -6,13 +6,16 @@ use App\Interfaces\Stock\ApiStockInterface;
 use App\Objects\Stock\StockObject;
 use App\Domains\Stock\YahoofinanceDomain;
 
+use App\Services\Sector\SectorService;
+
 use GuzzleHttp\Client;
 
-class YahoofinanceStockService implements ApiStockInterface, YahoofinanceDomain
+class YahoofinanceStockService extends SectorService implements ApiStockInterface, YahoofinanceDomain
 {
     private Client $httpClient;
 
     public function __construct(Client $httpClient) {
+        parent::__construct($httpClient);
         $this->httpClient = $httpClient;
     }
 
@@ -28,10 +31,14 @@ class YahoofinanceStockService implements ApiStockInterface, YahoofinanceDomain
             return $Stock;
         }
 
-        // print_r($requestJson);
+        $StockJson = $requestJson->quoteSummary->result[0]->price;
 
-        $Stock->setValue($requestJson->chart->result[0]->meta->regularMarketPrice);
-        $Stock->getCoin()->setCode($requestJson->chart->result[0]->meta->currency);
+        $Stock->setValue($StockJson->regularMarketPreviousClose->raw);
+        $Stock->getCoin()->setCode($StockJson->currency);
+
+        $Stock->setName($StockJson->longName);
+
+        $this->getSector($Stock->getCode(), $Stock);
 
         return $Stock;
     }

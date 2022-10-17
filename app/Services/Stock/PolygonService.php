@@ -6,13 +6,16 @@ use App\Interfaces\Stock\ApiStockInterface;
 use App\Objects\Stock\StockObject;
 use App\Domains\Stock\PolygonDomain;
 
+use App\Services\Sector\SectorService;
+
 use GuzzleHttp\Client;
 
-class PolygonService implements ApiStockInterface, PolygonDomain
+class PolygonService extends SectorService implements ApiStockInterface, PolygonDomain
 {
     private Client $httpClient;
 
     public function __construct(Client $httpClient) {
+        parent::__construct($httpClient);
         $this->httpClient = $httpClient;
     }
 
@@ -36,11 +39,13 @@ class PolygonService implements ApiStockInterface, PolygonDomain
         $Stock->getCoin()->setDate($requestJson->from);
         $Stock->getCoin()->setCode("USD");
 
+        $this->getSector($Stock->getCode(), $Stock);
+
         return $Stock;
     }
 
     private function getYesterday() : string 
     {
-        return date('Y-m-d',mktime(0,0,0,date("m"),date("d") - 1 ,date("Y")));
+        return date('Y-m-d',mktime(0,0,0,date("m"),date("d") - 3 ,date("Y")));
     }
 }

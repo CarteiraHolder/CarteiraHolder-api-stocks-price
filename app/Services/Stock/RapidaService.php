@@ -6,13 +6,16 @@ use App\Interfaces\Stock\ApiStockInterface;
 use App\Objects\Stock\StockObject;
 use App\Domains\Stock\RapidapiDomain;
 
+use App\Services\Sector\SectorService;
+
 use GuzzleHttp\Client;
 
-class RapidaService implements ApiStockInterface, RapidapiDomain
+class RapidaService extends SectorService implements ApiStockInterface, RapidapiDomain
 {
     private Client $httpClient;
 
     public function __construct(Client $httpClient) {
+        parent::__construct($httpClient);
         $this->httpClient = $httpClient;
     }
 
@@ -43,11 +46,13 @@ class RapidaService implements ApiStockInterface, RapidapiDomain
             return $Stock;
         }
 
+        $this->getSector($Stock->getCode(), $Stock);
+
         return $Stock;
     }
 
     private function getYesterday() : string 
     {
-        return date('Y-m-d',mktime(0,0,0,date("m"),date("d") - 1 ,date("Y")));
+        return date('Y-m-d',mktime(0,0,0,date("m"),date("d") - 3 ,date("Y")));
     }
 }
