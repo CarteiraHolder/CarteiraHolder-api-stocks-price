@@ -38,8 +38,6 @@ class YahoofinanceBrazilionStockService extends SectorService implements ApiBraz
 
         $Stock->setName($StockJson->longName);
 
-        $this->getSector($Stock->getCode(), $Stock);
-
         return $Stock;
     }
 }

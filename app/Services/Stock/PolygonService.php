@@ -39,8 +39,6 @@ class PolygonService extends SectorService implements ApiStockInterface, Polygon
         $Stock->getCoin()->setDate($requestJson->from);
         $Stock->getCoin()->setCode("USD");
 
-        $this->getSector($Stock->getCode(), $Stock);
-
         return $Stock;
     }
 

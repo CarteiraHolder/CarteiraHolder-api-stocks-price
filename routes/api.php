@@ -85,6 +85,7 @@ Route::get('/cripto/{code}',
         $CoinPrice = new CurrencyQuoteService($API, $CriptoObject->getCoin());
         
         $CriptPrice->getPrice()->setCoin($CoinPrice->getPrice());
+        
 
         echo '<pre>';
         print_r($CriptPrice->getPrice());
@@ -106,10 +107,13 @@ Route::get('/stocks/{code}',
         $StockObject->setCode($code);
 
         $StockPrice = new CurrencyQuoteStockService($API, $StockObject);
+        $API->getSector($code,$StockObject);
+
 
         $API = new AwesomeapiService(new Client);
         $CoinPrice = new CurrencyQuoteService($API, $StockObject->getCoin());
         
+       
         $StockPrice->getPrice()->setCoin($CoinPrice->getPrice());
 
         echo '<pre>';
@@ -131,6 +135,8 @@ Route::get('/stocks/brazilion/{code}',
         $BrazilionStockObject->setCode($code);
 
         $StockPrice = new CurrencyQuoteBrazilionStockService($API, $BrazilionStockObject);
+
+        $API->getSector($code, $BrazilionStockObject);
 
         $API = new AwesomeapiService(new Client);
         $CoinPrice = new CurrencyQuoteService($API, $BrazilionStockObject->getCoin());

@@ -46,8 +46,6 @@ class HgbrasilService extends SectorService implements ApiBrazilionStockInterfac
         $Stock->setName($StockJson->company_name);
         $Stock->setCnpj($StockJson->document);
 
-        $this->getSector($Stock->getCode(), $Stock);
-
         return $Stock;
     }
 

@@ -38,8 +38,6 @@ class YahoofinanceStockService extends SectorService implements ApiStockInterfac
 
         $Stock->setName($StockJson->longName);
 
-        $this->getSector($Stock->getCode(), $Stock);
-
         return $Stock;
     }
 }

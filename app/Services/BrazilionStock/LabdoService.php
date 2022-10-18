@@ -37,7 +37,6 @@ class LabdoService extends SectorService implements ApiBrazilionStockInterface, 
         $Stock->getCoin()->setCode($this->CoinRef($requestJson[0]->moeda_ref));
 
         $this->getInfoCompanies($Stock);
-        $this->getSector($Stock->getCode(), $Stock);
         return $Stock;
     }
 

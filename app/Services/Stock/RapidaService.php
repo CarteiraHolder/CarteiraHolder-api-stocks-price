@@ -46,8 +46,6 @@ class RapidaService extends SectorService implements ApiStockInterface, Rapidapi
             return $Stock;
         }
 
-        $this->getSector($Stock->getCode(), $Stock);
-
         return $Stock;
     }
 
