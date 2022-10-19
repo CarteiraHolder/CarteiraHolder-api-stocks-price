@@ -27,6 +27,7 @@ use App\Services\Stock\CurrencyQuoteStockService;
 use App\Objects\BrazilionStock\BrazilionStockObject;
 use App\Services\BrazilionStock\YahoofinanceBrazilionStockService;
 use App\Services\BrazilionStock\LabdoService;
+use App\Services\BrazilionStock\StatusinvestService;
 use App\Services\BrazilionStock\HgbrasilService as HgbrasilBrazilionStockService;
 use App\Services\BrazilionStock\CurrencyQuoteBrazilionStockService;
 
@@ -127,6 +128,7 @@ Route::get('/stocks/brazilion/{code}',
     function (Request $request, $code)
     {
         $API = new YahoofinanceBrazilionStockService(new Client);
+        // $API = new StatusinvestService(new Client); // ESSE AQUI ESTÁ COM PAU DE CASH
         // $API = new LabdoService(new Client);
         // $API = new HgbrasilBrazilionStockService(new Client);
         
@@ -147,32 +149,5 @@ Route::get('/stocks/brazilion/{code}',
         print_r($StockPrice->getPrice());
         echo '</pre>';
        
-    }
-);
-
-Route::get('/statusinvest/{code}',
-    function (Request $request, $code)
-    {
-        $headers = [
-            'Authorization' => 'statusinvest.com.br',
-            'Referer' => 'https://statusinvest.com.br/stock/' . $code,
-            'Origin' => 'https://statusinvest.com.br',
-        ];
-        $httpClient = new Client(
-            [
-                'headers' => $headers,
-            ]
-        );
-        $request = $httpClient->post(
-            "https://statusinvest.com.br/stock/tickerprice",
-            [
-                'form_params' => [
-                    'ticker' => $code,
-                    'type' => 0,
-                ]
-            ]
-        );
-
-        print_r($request->getBody()->getContents());
     }
 );
