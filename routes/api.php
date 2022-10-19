@@ -149,3 +149,30 @@ Route::get('/stocks/brazilion/{code}',
        
     }
 );
+
+Route::get('/statusinvest/{code}',
+    function (Request $request, $code)
+    {
+        $headers = [
+            'Authorization' => 'statusinvest.com.br',
+            'Referer' => 'https://statusinvest.com.br/stock/' . $code,
+            'Origin' => 'https://statusinvest.com.br',
+        ];
+        $httpClient = new Client(
+            [
+                'headers' => $headers,
+            ]
+        );
+        $request = $httpClient->post(
+            "https://statusinvest.com.br/stock/tickerprice",
+            [
+                'form_params' => [
+                    'ticker' => $code,
+                    'type' => 0,
+                ]
+            ]
+        );
+
+        print_r($request->getBody()->getContents());
+    }
+);

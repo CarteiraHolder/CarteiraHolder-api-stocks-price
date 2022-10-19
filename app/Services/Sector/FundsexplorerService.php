@@ -37,6 +37,13 @@ class FundsexplorerService implements FundsexplorerDomain, ApiSectorInterface
         
         if(count($tables) == 0 ) return $Object;
 
+        $this->setObject($tables,$Object);
+
+        return $Object;
+    }
+
+    private function setObject(\DOMNodeList $tables, object $Object) : object
+    {
         for ($i=0; $i < count($tables); $i++) { 
 			if(trim($tables[$i]->textContent) == "Segmento"){
                 $Object->setSector("Fundos Imobiliarios");
@@ -44,7 +51,6 @@ class FundsexplorerService implements FundsexplorerDomain, ApiSectorInterface
                 $Object->setSegment(utf8_decode(trim($tables[$i + 1]->textContent)));
 			}
 		}
-
         return $Object;
     }
 
